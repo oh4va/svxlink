@@ -1,0 +1,34 @@
+# This file is part of SvxLink -- a voice services system for ham radio
+#
+# Copyright (C) 2003-2019 Tobias Blomberg / SM0SVX
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+[Unit]
+Description=Setup UPNP NAT for SvxLink
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/bash -c "/bin/systemctl set-environment ip_addr=$(/bin/hostname -I | cut -d' ' -f1)"
+ExecStart=/usr/bin/upnpc -a ${ip_addr} 5198 5198 udp
+ExecStart=/usr/bin/upnpc -a ${ip_addr} 5199 5199 udp
+RemainAfterExit=true
+ExecStop=/usr/bin/upnpc -d ${ip_addr} 5198 5198 udp
+ExecStop=/usr/bin/upnpc -d ${ip_addr} 5199 5199 udp
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target

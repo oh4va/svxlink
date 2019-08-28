@@ -14,11 +14,13 @@ configure_file(svxreflector.service.in svxreflector.service @ONLY)
 configure_file(svxlink.default.in svxlink @ONLY)
 configure_file(remotetrx.default.in remotetrx @ONLY)
 configure_file(svxreflector.default.in svxreflector @ONLY)
+configure_file(svxlink-upnp.service.in svxlink-upnp.service @ONLY)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/svxlink_gpio_setup.service
               ${CMAKE_CURRENT_BINARY_DIR}/svxlink.service
               ${CMAKE_CURRENT_BINARY_DIR}/remotetrx.service
               ${CMAKE_CURRENT_BINARY_DIR}/svxreflector.service
+              ${CMAKE_CURRENT_BINARY_DIR}/svxlink-upnp.service
         DESTINATION ${SYSTEMD_CONFIGURATIONS_FILES_DIR})
 message(STATUS "Systemd unit files will be installed to "
         "${SYSTEMD_CONFIGURATIONS_FILES_DIR} after make install")
