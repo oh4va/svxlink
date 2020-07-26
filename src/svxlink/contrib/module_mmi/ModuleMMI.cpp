@@ -150,8 +150,8 @@ ModuleMMI::ModuleMMI(void *dl_handle, Logic *logic, const string& cfg_name)
 
 ModuleMMI::~ModuleMMI(void)
 {
-    delete timer;
-
+  delete timer;
+  delete mmitx;
 
 } /* ~ModuleMMI */
 
@@ -212,6 +212,12 @@ bool ModuleMMI::initialize(void)
     return false;
   }
 
+  mmitx = new MmiTx();
+  //if ((mmitx == 0) || (!mmitx->initialize(cfg(), name())))
+  if ((mmitx == 0) || (!mmitx->initialize(cfg(), "ModuleMMI")))
+  {
+    return false;
+  }
 
   timer = new Timer(100, Timer::TYPE_PERIODIC);
   timer->expired.connect(mem_fun(*this, &ModuleMMI::onTimerExpired));
@@ -366,6 +372,10 @@ void ModuleMMI::onTimerExpired(Timer *t)
 
     //cout << "Timer expired " << getCurrentTimestamp() << " ...\n";
     cout << "Timer expired " << ++count << " ...\n";
+    if (count < 100)
+        mmitx->setTxOn(true);
+    else
+        mmitx->setTxOn(false);
 }
 
 /*

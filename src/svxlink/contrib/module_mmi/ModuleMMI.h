@@ -57,7 +57,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * Local Includes
  *
  ****************************************************************************/
-
+//#include "MmiTx.h"
 
 
 /****************************************************************************
@@ -65,7 +65,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * Forward declarations
  *
  ****************************************************************************/
-
+class MmiTx;
 
 
 /****************************************************************************
@@ -130,8 +130,9 @@ class ModuleMMI : public Module
     void squelchOpen(bool is_open);
     void allMsgsWritten(void);
     void onTimerExpired(Timer *t);
-
-    Timer * timer;
+    
+    MmiTx *mmitx; 
+    Timer *timer;
 
 
 };  /* class ModuleMMI */

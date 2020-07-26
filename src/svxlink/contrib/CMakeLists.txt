@@ -33,3 +33,10 @@ if(WITH_CONTRIB_MODULE_TXFAN)
   add_subdirectory(module_txfan)
 endif(WITH_CONTRIB_MODULE_TXFAN)
 
+option(WITH_CONTRIB_MODULE_MMI
+  "Set to ON to build and install contributed module MMI")
+if(WITH_CONTRIB_MODULE_MMI)
+  message(STATUS "Building experimental module MMI")
+  add_subdirectory(module_mmi)
+endif(WITH_CONTRIB_MODULE_MMI)
+

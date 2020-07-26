@@ -128,9 +128,9 @@ bool MmiTx::initialize(Async::Config &cfg, const std::string name)
 {
   cfg.getValue(name, "GPIO_PATH", gpio_path);
 
-  if (!cfg.getValue(name, "MMI_TX_PTT_PIN", gpio_pin) || gpio_pin.empty())
+  if (!cfg.getValue(name, "TX_PTT_PIN", gpio_pin) || gpio_pin.empty())
   {
-    cerr << "*** ERROR: Config variable " << name << "/MMI_TX_PTT_PIN not set\n";
+    cerr << "*** ERROR: Config variable " << name << "/TX_PTT_PIN not set\n";
     return false;
   }
 
