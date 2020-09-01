@@ -18,10 +18,12 @@
 
 [Unit]
 Description=Setup UPnP NAT for SvxLink
-After=network.target
+After=network-online.target
+Requires=network-online.target
 
 [Service]
 Type=oneshot
+ExecStartPre=/bin/sleep 30
 ExecStartPre=/bin/bash -c "/bin/systemctl set-environment ip_addr=$(/bin/hostname -I | cut -d' ' -f1)"
 ExecStart=/usr/bin/upnpc -e EchoLink -a ${ip_addr} 5198 5198 udp
 ExecStart=/usr/bin/upnpc -e EchoLink -a ${ip_addr} 5199 5199 udp
