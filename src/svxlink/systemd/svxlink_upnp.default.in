@@ -1,0 +1,8 @@
+#############################################################################
+#
+# Configuration file for the SvxLink UPnP NAT Systemd unit file
+#
+#############################################################################
+
+# Specify which ethernet device is used for UPnP NAT
+DEVICE=eth0

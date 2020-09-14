@@ -14,7 +14,8 @@ configure_file(svxreflector.service.in svxreflector.service @ONLY)
 configure_file(svxlink.default.in svxlink @ONLY)
 configure_file(remotetrx.default.in remotetrx @ONLY)
 configure_file(svxreflector.default.in svxreflector @ONLY)
-configure_file(svxlink-upnp.service.in svxlink-upnp.service @ONLY)
+configure_file(svxlink_upnp.service.in svxlink_upnp.service @ONLY)
+configure_file(svxlink_upnp.default.in svxlink_upnp @ONLY)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/svxlink_gpio_setup.service
               ${CMAKE_CURRENT_BINARY_DIR}/svxlink.service
@@ -30,6 +31,8 @@ install_if_not_exists(${CMAKE_CURRENT_BINARY_DIR}/svxlink
 install_if_not_exists(${CMAKE_CURRENT_BINARY_DIR}/remotetrx
         ${SYSTEMD_DEFAULTS_FILES_DIR} )
 install_if_not_exists(${CMAKE_CURRENT_BINARY_DIR}/svxreflector
+        ${SYSTEMD_DEFAULTS_FILES_DIR} )
+install_if_not_exists(${CMAKE_CURRENT_BINARY_DIR}/svxlink_upnp
         ${SYSTEMD_DEFAULTS_FILES_DIR} )
 message(STATUS "Systemd unit configuration files will be "
                "installed to ${SYSTEMD_DEFAULTS_FILES_DIR} "

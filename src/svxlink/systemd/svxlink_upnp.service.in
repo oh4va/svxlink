@@ -23,15 +23,14 @@ Requires=network-online.target
 
 [Service]
 Type=oneshot
+EnvironmentFile=/etc/default/svxlink_upnp
 ExecStartPre=/bin/sleep 30
-ExecStartPre=/bin/bash -c "/bin/systemctl set-environment ip_addr=$(/bin/hostname -I | cut -d' ' -f1)"
-ExecStart=/usr/bin/upnpc -e EchoLink -a ${ip_addr} 5198 5198 udp
-ExecStart=/usr/bin/upnpc -e EchoLink -a ${ip_addr} 5199 5199 udp
-ExecStart=/usr/bin/upnpc -e SSH -a ${ip_addr} 22 65022 tcp
+ExecStartPre=/bin/bash -c "/bin/systemctl set-environment ip_addr=$(ip -4 addr show ${DEVICE} | grep -oP '(?<=inet\\s)\\d+(\\.\\d+){3}')"
+ExecStart=/usr/bin/upnpc -e EchoLink -m ${DEVICE} -a ${ip_addr} 5198 5198 udp
+ExecStart=/usr/bin/upnpc -e EchoLink -m ${DEVICE} -a ${ip_addr} 5199 5199 udp
 RemainAfterExit=true
-ExecStop=/usr/bin/upnpc -d 5198 udp
-ExecStop=/usr/bin/upnpc -d 5199 udp
-ExecStop=/usr/bin/upnpc -d 65022 tcp
+ExecStop=/usr/bin/upnpc -m ${DEVICE} -d 5198 udp
+ExecStop=/usr/bin/upnpc -m ${DEVICE} -d 5199 udp
 StandardOutput=journal
 
 [Install]
