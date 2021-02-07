@@ -613,7 +613,7 @@ bool Logic::initialize(void)
   event_handler->playDtmf.connect(mem_fun(*this, &Logic::playDtmf));
   event_handler->injectDtmf.connect(mem_fun(*this, &Logic::injectDtmf));
   event_handler->setConfigValue.connect(
-          sigc::mem_fun(cfg(), &Async::Config::setValue));
+          sigc::mem_fun(cfg(), &Async::Config::setValue<std::string>));
   event_handler->setVariable("mycall", m_callsign);
   char str[256];
   sprintf(str, "%.1f", report_ctcss);
@@ -1580,10 +1580,11 @@ void Logic::timeoutNextMinute(void)
 {
   struct timeval tv;
   gettimeofday(&tv, NULL);
-  struct tm *tm = localtime(&tv.tv_sec);
-  tm->tm_min += 1;
-  tm->tm_sec = 0;
-  every_minute_timer.setTimeout(*tm);
+  struct tm tm;
+  localtime_r(&tv.tv_sec, &tm);
+  tm.tm_min += 1;
+  tm.tm_sec = 0;
+  every_minute_timer.setTimeout(tm);
 } /* Logic::timeoutNextMinute */
 
 
@@ -1598,9 +1599,10 @@ void Logic::timeoutNextSecond(void)
 {
   struct timeval tv;
   gettimeofday(&tv, NULL);
-  struct tm *tm = localtime(&tv.tv_sec);
-  tm->tm_sec += 1;
-  every_second_timer.setTimeout(*tm);
+  struct tm tm;
+  localtime_r(&tv.tv_sec, &tm);
+  tm.tm_sec += 1;
+  every_second_timer.setTimeout(tm);
 } /* Logic::timeoutNextSecond */
 
 
